@@ -45,6 +45,9 @@ public class CLILauncher {
                         case "--justSaveConfigFile":
                             // TODO (save command line options to a file instead of running the analysis)
                             break;
+                        case "--help":
+                        	displayHelpAndExit();
+                        	break;
                         default:
                             return Optional.empty();
                     }
@@ -55,10 +58,15 @@ public class CLILauncher {
         }
         return Optional.of(new Configuration(gitPath, plugins));
     }
+    
+
 
     private static void displayHelpAndExit() {
-        System.out.println("Wrong command...");
         //TODO: print the list of options and their syntax
+        System.out.println("To add a Plugin you need to write: --addPlugin" + "\n");
+        System.out.println("To load option from a file you need to write: --loadConfigFile" + "\n");
+        System.out.println("To save command line options to a file instead of running the analysis "+ "\n" + "you need to write: --addPlugin");
+        
         System.exit(0);
     }
 }
