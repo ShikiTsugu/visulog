@@ -8,6 +8,8 @@ import java.nio.file.FileSystems;
 import java.util.HashMap;
 import java.util.Optional;
 
+import java.util.ArrayList;
+
 public class CLILauncher {
 
     public static void main(String[] args) {
@@ -17,6 +19,13 @@ public class CLILauncher {
             var results = analyzer.computeResults();
             System.out.println(results.toHTML());
         } else displayHelpAndExit();
+    }
+    
+    //String s correspond au fichier Json
+    public static Configuration configsFromJsonFile(String s){
+    	FileInputStream fjson = new FileInputStream(s);
+    	BufferedReader br = new BufferedReader(new InputStreamReader(fjson));
+    	return br.readLine();
     }
 
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) {
@@ -45,6 +54,9 @@ public class CLILauncher {
                         case "--justSaveConfigFile":
                             // TODO (save command line options to a file instead of running the analysis)
                             break;
+                        case "--help":
+                        	displayHelpAndExit();
+                        	break;
                         default:
                             return Optional.empty();
                     }
@@ -55,10 +67,15 @@ public class CLILauncher {
         }
         return Optional.of(new Configuration(gitPath, plugins));
     }
+    
+
 
     private static void displayHelpAndExit() {
-        System.out.println("Wrong command...");
         //TODO: print the list of options and their syntax
+        System.out.println("To add a Plugin you need to write: --addPlugin" + "\n");
+        System.out.println("To load option from a file you need to write: --loadConfigFile" + "\n");
+        System.out.println("To save command line options to a file instead of running the analysis "+ "\n" + "you need to write: --addPlugin");
+        
         System.exit(0);
     }
 }
