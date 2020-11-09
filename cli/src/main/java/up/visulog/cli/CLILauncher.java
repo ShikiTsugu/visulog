@@ -22,11 +22,11 @@ public class CLILauncher {
     }
     
     //String s correspond au fichier Json
-    public static Configuration configsFromJsonFile(String s){
+   /* public static Configuration configsFromJsonFile(String s){
     	FileInputStream fjson = new FileInputStream(s);
     	BufferedReader br = new BufferedReader(new InputStreamReader(fjson));
     	return br.readLine();
-    }
+    }*/
 
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) {
         var gitPath = FileSystems.getDefault().getPath(".");
