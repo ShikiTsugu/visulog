@@ -8,6 +8,8 @@ import java.nio.file.FileSystems;
 import java.util.HashMap;
 import java.util.Optional;
 
+import java.util.ArrayList;
+
 public class CLILauncher {
 
     public static void main(String[] args) {
@@ -17,6 +19,13 @@ public class CLILauncher {
             var results = analyzer.computeResults();
             System.out.println(results.toHTML());
         } else displayHelpAndExit();
+    }
+    
+    //String s correspond au fichier Json
+    public static Configuration configsFromJsonFile(String s){
+    	FileInputStream fjson = new FileInputStream(s);
+    	BufferedReader br = new BufferedReader(new InputStreamReader(fjson));
+    	return br.readLine();
     }
 
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) {
