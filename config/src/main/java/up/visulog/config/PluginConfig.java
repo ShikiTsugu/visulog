@@ -3,7 +3,11 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class PluginConfig{
-	private Map<String, String> plugins=new HashMap<String, String>();
+	private Map<String, String> plugins;
+	
+	public PluginConfig() {
+		plugins = new HashMap<String,String>();
+	}
 	
 	public PluginConfig(Map<String, String> p) {
 		plugins = p;
