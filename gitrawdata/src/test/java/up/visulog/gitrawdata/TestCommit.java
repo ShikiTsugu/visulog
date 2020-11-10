@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +23,7 @@ public class TestCommit {
             assertEquals(expected, commit.get().toString());
         }
     }
-
+    
     @Test
     public void testParseLog() throws IOException, URISyntaxException {
         var expectedUri = getClass().getClassLoader().getResource("expectedToString").toURI();
