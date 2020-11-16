@@ -58,6 +58,8 @@ public class CLILauncher {
 
                             if (pValue.equals("countCommits")) plugins.put("countCommits", new PluginConfig() {
                             });
+                            if (pValue.equals("countCommitsPerWeek")) plugins.put("countCommitsPerWeek", new PluginConfig() {
+                            });
 
                             break;
                         case "--loadConfigFile":

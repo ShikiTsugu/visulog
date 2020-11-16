@@ -37,6 +37,7 @@ public class Analyzer {
     private Optional<AnalyzerPlugin> makePlugin(String pluginName, PluginConfig pluginConfig) {
         switch (pluginName) {
             case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
+            case "countCommitsPerWeek" : return Optional.of(new CountCommitsPerWeekPlugin(config));
             default : return Optional.empty();
         }
     }
