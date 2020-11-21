@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -197,8 +198,36 @@ public class Commit {
     public static int numberOfCommitsInTheCurrentWeek(Path gitPath) {
     	return numberOfCommits((int) firstDayOfTheWeek(LocalDate.now()).until(LocalDate.now(), ChronoUnit.DAYS), gitPath);
     }
-    
-   
+
+    //Renvoie une HashMap dont les clés sont les jours (seulement ceux où au moins un commit a été effectué) , et les valeurs sont les sommes des commits pour chaque jour.
+    public static HashMap sumOfCommitsPerDay(Path gitPath){
+        List<Commit> commits = parseLogFromCommand(gitPath);
+        HashMap<String, Integer> commitsPerDay = new HashMap<String, Integer>();
+        for(Commit c : commits) {
+            if(commitsPerDay.containsKey(dateParser(c.date))){
+                int valeur = commitsPerDay.get(dateParser(c.date));
+                commitsPerDay.put(dateParser(c.date), valeur +1);
+            }else {
+                int valeur = 0;
+                commitsPerDay.put(dateParser(c.date), valeur +1);
+            }
+        }
+        return commitsPerDay;
+
+    }
+
+    //Renvoie le jour correspondant à la date sous forme d'une chaîne de caractères
+    public static String dateParser(LocalDateTime date){
+        DateTimeFormatter Pattern = DateTimeFormatter.ofPattern("EEEE/MM/yyyy");
+        String DateParsed = date.format(Pattern);
+        int index = DateParsed.indexOf("/");
+        return DateParsed.substring(0, index);
+
+    }
+
+
+
+
     @Override
     public String toString() {
         return "Commit{" +
