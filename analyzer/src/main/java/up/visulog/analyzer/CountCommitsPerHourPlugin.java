@@ -8,23 +8,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CountCommitsPerWeekPlugin implements AnalyzerPlugin {
+public class CountCommitsPerHourPlugin implements AnalyzerPlugin {
     private final Configuration configuration;
     private Result result;
 
-    public CountCommitsPerWeekPlugin(Configuration generalConfiguration) {
+    public CountCommitsPerHourPlugin(Configuration generalConfiguration) {
         this.configuration = generalConfiguration;
     }
 
-    static Result processLog(HashMap Commits) {
+    static Result processLog(int [] Commits) {
         var result = new Result();
-        result.commitsPerWeek = Commits;
+        result.commitsPerHour = Commits;
         return result;
     }
 
     @Override
     public void run() {
-        result = processLog(Commit.numberOfCommitsPerWeek(configuration.getGitPath()));
+        result = processLog(Commit.numberOfCommitsPerHour(configuration.getGitPath()));
     }
 
     @Override
@@ -34,22 +34,22 @@ public class CountCommitsPerWeekPlugin implements AnalyzerPlugin {
     }
 
     static class Result implements AnalyzerPlugin.Result {
-        private Map<LocalDate, Integer> commitsPerWeek = new HashMap<>();
+        private int [] commitsPerHour;
 
-        Map<LocalDate, Integer> getCommitsPerWeek() {
-            return commitsPerWeek;
+       int [] getCommitsPerday() {
+            return commitsPerHour;
         }
 
         @Override
         public String getResultAsString() {
-            return commitsPerWeek.toString();
+            return commitsPerHour.toString();
         }
 
         @Override
         public String getResultAsHtmlDiv() {
-            StringBuilder html = new StringBuilder("<div>Commits per week: <ul>");
-            for (var item : commitsPerWeek.entrySet()) {
-                html.append("<li>").append(item.getKey()).append(": ").append(item.getValue()).append("</li>");
+            StringBuilder html = new StringBuilder("<div>Commits per Hour: <ul>");
+            for(int i=0; i<24; i=i+2) {
+                html.append("<li>").append(i + "-" + ((i+2)%24)+"h").append(": ").append(commitsPerHour[i]+commitsPerHour[i+1]).append("</li>");
             }
             html.append("</ul></div>");
             return html.toString();

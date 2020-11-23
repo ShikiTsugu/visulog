@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalField;
@@ -224,8 +225,15 @@ public class Commit {
         return DateParsed.substring(0, index);
 
     }
-
-
+    //Renoie un tableau d'entier dont les indices correspondent aux heures d'une journée, et les valeurs aux nombres de commits effectués durant l'heure
+    public static int[] numberOfCommitsPerHour(Path gitPath) {
+    	List<Commit> commits = parseLogFromCommand(gitPath);
+    	int [] commitsPerHour = new int[24];
+    	for(Commit c : commits) {
+    		 commitsPerHour[c.date.toLocalTime().getHour()]++;
+    		}
+    	return commitsPerHour;
+    }
 
 
     @Override
