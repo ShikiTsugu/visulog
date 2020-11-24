@@ -4,14 +4,16 @@ import up.visulog.analyzer.Analyzer;
 import up.visulog.config.Configuration;
 import up.visulog.config.PluginConfig;
 
+import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import java.io.File;
+import java.io.*;
 import org.apache.commons.cli.*;
+import org.json.*;
 
 public class CLILauncher {
 
@@ -48,6 +50,17 @@ public class CLILauncher {
     	return new Configuration(gitPath, plugins);
     }
 
+  /* public static void commandOptionsToJsonFile(String parameter) throws IOException {
+        Runtime objetExecution = Runtime.getRuntime();
+        var myCommand= objetExecution.exec("man" + parameter);
+        InputStream i = myCommand.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(i));
+        String line;
+        while((line=reader.readLine()) != null){
+
+        } destiné à l'utilisation de la commande justSaveConfigFile.
+    }*/
+
     public static Options cliOptions(){
         var option= new Options();
         option.addOption(Option.builder().longOpt( "addPlugin" )
@@ -78,6 +91,10 @@ public class CLILauncher {
         for(var difflcf : lcf) {
             configsFromJsonFile(difflcf);
         }
+        /*var jscf= cli.getOptionValues("justSaveConfigFile");
+        for(var diffjscf : jscf){
+            commandOptionsToJsonFile(diffjscf);
+        }*/
         // pour le moment je n'ai pas eu le temps de test loadConfigFile mais je fais une commit de ça pour l'instant.
         // ne pas oublier de rajouter le fonctionnement de la commande justSaveConfigFile.
         // il faudra voir mais on pourra rajouter aussi la commande --help (-h).
