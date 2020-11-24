@@ -61,6 +61,7 @@ public class CLILauncher {
         } destiné à l'utilisation de la commande justSaveConfigFile.
     }*/
 
+<<<<<<< cli/src/main/java/up/visulog/cli/CLILauncher.java
     public static Options cliOptions(){
         var option= new Options();
         option.addOption(Option.builder().longOpt( "addPlugin" )
@@ -80,6 +81,17 @@ public class CLILauncher {
                 .build() );
         return option;
     }
+=======
+                            /*if (pValue.equals("countCommits")) plugins.put("countCommits", new PluginConfig() {
+                            });
+                            if (pValue.equals("countCommitsPerWeek")) plugins.put("countCommitsPerWeek", new PluginConfig() {
+                            });
+                            if (pValue.equals("countCommitsPerDay")) plugins.put("countCommitsPerDay", new PluginConfig() {
+                            });
+                            if (pValue.equals("sumOfCommitsPerDay")) plugins.put("sumOfCommitsPerDay", new PluginConfig() {
+                            });*/
+
+>>>>>>> cli/src/main/java/up/visulog/cli/CLILauncher.java
 
     public static Configuration configFromCli(CommandLine cli){
         var p= cli.getOptionValues("addPlugin");
