@@ -64,6 +64,9 @@ public class CLILauncher {
                             });
                             if (pValue.equals("sumOfCommitsPerDay")) plugins.put("sumOfCommitsPerDay", new PluginConfig() {
                             });
+                            if (pValue.equals("countCommitsPerHour")) plugins.put("countCommitsPerHour", new PluginConfig() {
+                            });
+
 
 
                             break;

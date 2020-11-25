@@ -36,7 +36,7 @@ public class CountCommitsPerDayPlugin implements AnalyzerPlugin {
     static class Result implements AnalyzerPlugin.Result {
         private Map<LocalDate, Integer> commitsPerDay = new HashMap<>();
 
-        Map<LocalDate, Integer> getCommitsPerAuthor() {
+        Map<LocalDate, Integer> getCommitsPerday() {
             return commitsPerDay;
         }
 
