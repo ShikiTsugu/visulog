@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.*;
 
 import java.io.*;
 import org.apache.commons.cli.*;
@@ -19,11 +20,15 @@ public class CLILauncher {
 
     public static void main(String[] args) {
         try {
-            var cli= new DefaultParser().parse(cliOptions(),args);
-            var config = configFromCli(cli);
-            var analyzer = new Analyzer(config);
-            var results = analyzer.computeResults();
-            System.out.println(results.toHTML());
+            if(args[1].startsWith("--addPlugin")||args[1].startsWith("--loadConfigFile")||
+                    args[1].startsWith("--justSaveConfigFile")) {
+                var cli = new DefaultParser().parse(cliOptions(), args);
+                var config = configFromCli(cli);
+                var analyzer = new Analyzer(config);
+                var results = analyzer.computeResults();
+                System.out.println(results.toHTML());
+            }
+            if(args[1].startsWith("--help")){displayHelp();}
         } catch (ParseException e) {
             //TODO nice errors
             System.out.println(e.getMessage());
@@ -74,8 +79,14 @@ public class CLILauncher {
                 .desc( "display all the available options" )
                 .hasArg(false)
                 .build() );
-        System.out.println("Use the command --help to display all the available options.");
+        System.out.println("Use the command --help to display the options manual with the correct syntaxes.");
         return option;
+    }
+
+    public static void displayHelp(){
+        var h = new HelpFormatter();
+        h.printHelp("Visulog", cliOptions());
+        System.exit(0);
     }
 
     public static Options cliOptions(){
@@ -98,18 +109,6 @@ public class CLILauncher {
         return option;
     }
 
-    public static Configuration helpDisplay(CommandLine cli){
-        var h= cli.getOptionValues("help");
-        var hf = new HelpFormatter();
-        hf.printHelp("Visulog",cliOptions());
-        var plugins = new HashMap<String, PluginConfig>();
-        var gitPath = FileSystems.getDefault().getPath(".");
-        if(cli.getArgs()[0] != null) {
-            gitPath = FileSystems.getDefault().getPath(cli.getArgs()[0]);
-        }
-        return new Configuration(gitPath, plugins);
-    }
-
     public static Configuration configFromCli(CommandLine cli){
         var p= cli.getOptionValues("addPlugin");
         var plugins = new HashMap<String, PluginConfig>();
@@ -126,7 +125,6 @@ public class CLILauncher {
         }*/
         // pour le moment je n'ai pas eu le temps de test loadConfigFile mais je fais une commit de ça pour l'instant.
         // ne pas oublier de rajouter le fonctionnement de la commande justSaveConfigFile.
-        // il faudra voir mais on pourra rajouter aussi la commande --help (-h).
 
         var gitPath = FileSystems.getDefault().getPath(".");
         if(cli.getArgs()[0] != null) {
