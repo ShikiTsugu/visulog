@@ -94,11 +94,11 @@ public class CLILauncher {
         for(var plugin : p){
             plugins.put(plugin,new PluginConfig());
         }
-        var lcf= cli.getOptionValues("loadConfigFile");
+        /*var lcf= cli.getOptionValues("loadConfigFile");
         for(var difflcf : lcf) {
             configsFromJsonFile(difflcf);
         }
-        /*var jscf= cli.getOptionValues("justSaveConfigFile");
+        var jscf= cli.getOptionValues("justSaveConfigFile");
         for(var diffjscf : jscf){
             commandOptionsToJsonFile(diffjscf);
         }*/
