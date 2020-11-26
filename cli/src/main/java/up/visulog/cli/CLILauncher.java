@@ -60,16 +60,13 @@ public class CLILauncher {
         } destiné à l'utilisation de la commande justSaveConfigFile.
     }*/
     
-    /*if (pValue.equals("countCommits")) plugins.put("countCommits", new PluginConfig() {
-    });
-    if (pValue.equals("countCommitsPerWeek")) plugins.put("countCommitsPerWeek", new PluginConfig() {
-    });
-    if (pValue.equals("countCommitsPerDay")) plugins.put("countCommitsPerDay", new PluginConfig() {
-    });
-    if (pValue.equals("sumOfCommitsPerDay")) plugins.put("sumOfCommitsPerDay", new PluginConfig() {
-    });
-    if (pValue.equals("countCommitsPerHour")) plugins.put("countCommitsPerHour", new PluginConfig() {
-    });*/
+    /* Liste des plugins :
+    "countCommits"
+    "countCommitsPerWeek"
+    "countCommitsPerDay"
+    "sumOfCommitsPerDay"
+    "countCommitsPerHour"
+    */
 
     public static Options cliOptions(){
         var option= new Options();
