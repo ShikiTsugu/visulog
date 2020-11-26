@@ -20,15 +20,12 @@ public class CLILauncher {
 
     public static void main(String[] args) {
         try {
-            if(args[1].startsWith("--addPlugin")||args[1].startsWith("--loadConfigFile")||
-                    args[1].startsWith("--justSaveConfigFile")) {
-                var cli = new DefaultParser().parse(cliOptions(), args);
-                var config = configFromCli(cli);
-                var analyzer = new Analyzer(config);
-                var results = analyzer.computeResults();
-                System.out.println(results.toHTML());
-            }
             if(args[1].startsWith("--help")){displayHelp();}
+            var cli = new DefaultParser().parse(cliOptions(), args);
+            var config = configFromCli(cli);
+            var analyzer = new Analyzer(config);
+            var results = analyzer.computeResults();
+            System.out.println(results.toHTML());
         } catch (ParseException e) {
             //TODO nice errors
             System.out.println(e.getMessage());
