@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.*;
 
 import java.io.*;
 import org.apache.commons.cli.*;
@@ -19,16 +20,20 @@ public class CLILauncher {
 
     public static void main(String[] args) {
         try {
-            var cli= new DefaultParser().parse(cliOptions(),args);
-            var config = configFromCli(cli);
-            var analyzer = new Analyzer(config);
-            var results = analyzer.computeResults();
-            System.out.println(results.toHTML());
+            if(args[1].startsWith("--addPlugin")||args[1].startsWith("--loadConfigFile")||
+                    args[1].startsWith("--justSaveConfigFile")) {
+                var cli = new DefaultParser().parse(cliOptions(), args);
+                var config = configFromCli(cli);
+                var analyzer = new Analyzer(config);
+                var results = analyzer.computeResults();
+                System.out.println(results.toHTML());
+            }
+            if(args[1].startsWith("--help")){displayHelp();}
         } catch (ParseException e) {
             //TODO nice errors
             System.out.println(e.getMessage());
             var fmt= new HelpFormatter();
-            fmt.printHelp("visulog",cliOptions());
+            fmt.printHelp("Visulog",help());
         }
 
     }
@@ -68,6 +73,22 @@ public class CLILauncher {
     "countCommitsPerHour"
     */
 
+    public static Options help(){
+        var option= new Options();
+        option.addOption(Option.builder().longOpt( "help" )
+                .desc( "display all the available options" )
+                .hasArg(false)
+                .build() );
+        System.out.println("Use the command --help to display the options manual with the correct syntaxes.");
+        return option;
+    }
+
+    public static void displayHelp(){
+        var h = new HelpFormatter();
+        h.printHelp("Visulog", cliOptions());
+        System.exit(0);
+    }
+
     public static Options cliOptions(){
         var option= new Options();
         option.addOption(Option.builder().longOpt( "addPlugin" )
@@ -87,7 +108,7 @@ public class CLILauncher {
                 .build() );
         return option;
     }
-    
+
     public static Configuration configFromCli(CommandLine cli){
         var p= cli.getOptionValues("addPlugin");
         var plugins = new HashMap<String, PluginConfig>();
@@ -104,7 +125,6 @@ public class CLILauncher {
         }*/
         // pour le moment je n'ai pas eu le temps de test loadConfigFile mais je fais une commit de ça pour l'instant.
         // ne pas oublier de rajouter le fonctionnement de la commande justSaveConfigFile.
-        // il faudra voir mais on pourra rajouter aussi la commande --help (-h).
 
         var gitPath = FileSystems.getDefault().getPath(".");
         if(cli.getArgs()[0] != null) {
