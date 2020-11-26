@@ -28,7 +28,7 @@ public class CLILauncher {
             //TODO nice errors
             System.out.println(e.getMessage());
             var fmt= new HelpFormatter();
-            fmt.printHelp("visulog",cliOptions());
+            fmt.printHelp("Visulog",help());
         }
 
     }
@@ -68,6 +68,16 @@ public class CLILauncher {
     "countCommitsPerHour"
     */
 
+    public static Options help(){
+        var option= new Options();
+        option.addOption(Option.builder().longOpt( "help" )
+                .desc( "display all the available options" )
+                .hasArg(false)
+                .build() );
+        System.out.println("Use the command --help to display all the available options.");
+        return option;
+    }
+
     public static Options cliOptions(){
         var option= new Options();
         option.addOption(Option.builder().longOpt( "addPlugin" )
@@ -87,7 +97,19 @@ public class CLILauncher {
                 .build() );
         return option;
     }
-    
+
+    public static Configuration helpDisplay(CommandLine cli){
+        var h= cli.getOptionValues("help");
+        var hf = new HelpFormatter();
+        hf.printHelp("Visulog",cliOptions());
+        var plugins = new HashMap<String, PluginConfig>();
+        var gitPath = FileSystems.getDefault().getPath(".");
+        if(cli.getArgs()[0] != null) {
+            gitPath = FileSystems.getDefault().getPath(cli.getArgs()[0]);
+        }
+        return new Configuration(gitPath, plugins);
+    }
+
     public static Configuration configFromCli(CommandLine cli){
         var p= cli.getOptionValues("addPlugin");
         var plugins = new HashMap<String, PluginConfig>();
