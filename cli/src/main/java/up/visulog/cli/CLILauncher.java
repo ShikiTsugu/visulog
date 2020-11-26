@@ -20,7 +20,6 @@ public class CLILauncher {
 
     public static void main(String[] args) {
         try {
-            if(args[1].startsWith("--help")){displayHelp();}
             var cli = new DefaultParser().parse(cliOptions(), args);
             var config = configFromCli(cli);
             var analyzer = new Analyzer(config);
@@ -34,22 +33,22 @@ public class CLILauncher {
         }
 
     }
-    
+
     //String s correspond au fichier Json
     public static Configuration configsFromJsonFile(String json){
-    	Scanner sc = null;
-		try {	
-			String s = new File(json).getAbsolutePath();
-			sc = new Scanner(new File(s));
-		}
-		catch(Exception e) {
-			System.out.println("Error when opening file.");
-			e.printStackTrace();
-			System.exit(1);
-		}
-		var gitPath = FileSystems.getDefault().getPath(sc.nextLine());
-    	var plugins = new HashMap<String, PluginConfig>();
-    	return new Configuration(gitPath, plugins);
+        Scanner sc = null;
+        try {
+            String s = new File(json).getAbsolutePath();
+            sc = new Scanner(new File(s));
+        }
+        catch(Exception e) {
+            System.out.println("Error when opening file.");
+            e.printStackTrace();
+            System.exit(1);
+        }
+        var gitPath = FileSystems.getDefault().getPath(sc.nextLine());
+        var plugins = new HashMap<String, PluginConfig>();
+        return new Configuration(gitPath, plugins);
     }
 
   /* public static void commandOptionsToJsonFile(String parameter) throws IOException {
@@ -61,7 +60,7 @@ public class CLILauncher {
         while((line=reader.readLine()) != null){
         } destiné à l'utilisation de la commande justSaveConfigFile.
     }*/
-    
+
     /* Liste des plugins :
     "countCommits"
     "countCommitsPerWeek"
@@ -82,11 +81,11 @@ public class CLILauncher {
 
     public static void displayHelp(){
         var h = new HelpFormatter();
-        h.printHelp("Visulog", cliOptions());
+        h.printHelp("Visulog", cliOptionsWithoutHelp());
         System.exit(0);
     }
 
-    public static Options cliOptions(){
+    public static Options cliOptionsWithoutHelp(){
         var option= new Options();
         option.addOption(Option.builder().longOpt( "addPlugin" )
                 .desc( "add a plugin to config" )
@@ -106,7 +105,33 @@ public class CLILauncher {
         return option;
     }
 
+    public static Options cliOptions(){
+        var option= new Options();
+        option.addOption(Option.builder().longOpt( "help" )
+                .desc( "display all the available options" )
+                .hasArg(false)
+                .build() );
+        option.addOption(Option.builder().longOpt( "addPlugin" )
+                .desc( "add a plugin to config" )
+                .hasArg()
+                .argName("PLUGIN")
+                .build() );
+        option.addOption(Option.builder().longOpt( "loadConfigFile" )
+                .desc( "load options from a file" )
+                .hasArg()
+                .argName("FILE")
+                .build() );
+        option.addOption(Option.builder().longOpt( "justSaveConfigFile" )
+                .desc( "save command line options to a file instead of running the analysis" )
+                .hasArg()
+                .argName("OPTION")
+                .build() );
+        return option;
+    }
+
     public static Configuration configFromCli(CommandLine cli){
+        if(cli.hasOption("help")){displayHelp();}
+
         var p= cli.getOptionValues("addPlugin");
         var plugins = new HashMap<String, PluginConfig>();
         for(var plugin : p){
