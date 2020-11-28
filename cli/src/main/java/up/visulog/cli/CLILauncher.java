@@ -18,7 +18,8 @@ public class CLILauncher {
             System.out.println(results.toHTML());
         } else displayHelpAndExit();
     }
-
+    
+	['.' '--addPlugin=CountCommitsPerAuthorPlugin' '--addPlugin=CountLinesPerAuthorPlugin']
     static Optional<Configuration> makeConfigFromCommandLineArgs(String[] args) {
         var gitPath = FileSystems.getDefault().getPath(".");
         var plugins = new HashMap<String, PluginConfig>();
@@ -37,7 +38,8 @@ public class CLILauncher {
 
                             if (pValue.equals("countCommits")) plugins.put("countCommits", new PluginConfig() {
                             });
-
+                            if (pValue.equals("countLines")) plugins.put("countLines",new PluginConfig() {
+                            });
                             break;
                         case "--loadConfigFile":
                             // TODO (load options from a file)
