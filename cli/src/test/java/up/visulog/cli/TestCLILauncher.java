@@ -1,6 +1,10 @@
 package up.visulog.cli;
 
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.ParseException;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -13,11 +17,17 @@ public class TestCLILauncher {
      */
     @Test
     public void testArgumentParser() {
-        var config1 = CLILauncher.makeConfigFromCommandLineArgs(new String[]{".", "--addPlugin=countCommits"});
-        assertTrue(config1.isPresent());
-        var config2 = CLILauncher.makeConfigFromCommandLineArgs(new String[] {
-            "--nonExistingOption"
-        });
-        assertFalse(config2.isPresent());
+        try{
+            var cli= new DefaultParser().parse(CLILauncher.cliOptions(), new String[]{".","countCommits"});
+            var argument= cli.getOptionValue("addPlugin");
+            assertTrue(!argument.isEmpty() ? true : false);
+
+            var cli2= new DefaultParser().parse(CLILauncher.cliOptions(), new String[]{});
+            var argument2= cli2.getOptionValue("nonExistingOption");
+            assertFalse(argument2.isEmpty() ? true : false);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
 }

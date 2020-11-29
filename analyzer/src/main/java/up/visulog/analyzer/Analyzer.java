@@ -38,6 +38,10 @@ public class Analyzer {
         switch (pluginName) {
             case "countCommits" : return Optional.of(new CountCommitsPerAuthorPlugin(config));
             case "countLines" : return Optional.of(new CountLinesPerAuthorPlugin(config));
+            case "countCommitsPerWeek" : return Optional.of(new CountCommitsPerWeekPlugin(config));
+            case "countCommitsPerDay" : return Optional.of(new CountCommitsPerDayPlugin(config));
+            case "sumOfCommitsPerDay" : return Optional.of(new SumOfCommitsPerDayPlugin(config));
+            case "countCommitsPerHour" : return Optional.of(new CountCommitsPerHourPlugin(config));
             default : return Optional.empty();
         }
     }
