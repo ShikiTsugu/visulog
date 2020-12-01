@@ -67,6 +67,7 @@ public class CLILauncher {
     "countCommitsPerDay"
     "sumOfCommitsPerDay"
     "countCommitsPerHour"
+    "countLinesPerAuthor"
     */
 
     public static Options help(){
