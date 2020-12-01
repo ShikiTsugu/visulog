@@ -10,13 +10,13 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.*;
 
 import java.io.*;
 import org.apache.commons.cli.*;
 import org.json.*;
 
 public class CLILauncher {
+    private static boolean enable = true;
 
     public static void main(String[] args) {
         try {
@@ -82,36 +82,20 @@ public class CLILauncher {
 
     public static void displayHelp(){
         var h = new HelpFormatter();
-        h.printHelp("Visulog", cliOptionsWithoutHelp());
+        enable = false;
+        h.printHelp("Visulog", cliOptions());
+        enable = true;
         System.exit(0);
     }
 
-    public static Options cliOptionsWithoutHelp(){
-        var option= new Options();
-        option.addOption(Option.builder().longOpt( "addPlugin" )
-                .desc( "add a plugin to config" )
-                .hasArg()
-                .argName("PLUGIN")
-                .build() );
-        option.addOption(Option.builder().longOpt( "loadConfigFile" )
-                .desc( "load options from a file" )
-                .hasArg()
-                .argName("FILE")
-                .build() );
-        option.addOption(Option.builder().longOpt( "justSaveConfigFile" )
-                .desc( "save command line options to a file instead of running the analysis" )
-                .hasArg()
-                .argName("OPTION")
-                .build() );
-        return option;
-    }
-
-    public static Options cliOptions(){
-        var option= new Options();
-        option.addOption(Option.builder().longOpt( "help" )
-                .desc( "display all the available options" )
-                .hasArg(false)
-                .build() );
+    public static Options cliOptions() {
+        var option = new Options();
+        if (enable){
+            option.addOption(Option.builder().longOpt("help")
+                    .desc("display all the available options")
+                    .hasArg(false)
+                    .build());
+        }
         option.addOption(Option.builder().longOpt( "addPlugin" )
                 .desc( "add a plugin to config" )
                 .hasArg()
