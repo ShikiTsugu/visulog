@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -233,6 +234,31 @@ public class Commit {
     		 commitsPerHour[c.date.toLocalTime().getHour()]++;
     		}
     	return commitsPerHour;
+    }
+    
+  //renvoie une map dont les clefs sont les noms des fichiers et les valeurs un tableau d'entier comptant le nombre de lignes retirées (indice 0) et ajoutées (indice 1) du commit
+    public HashMap numberOfChanges(Path gitPath) {
+    	return (new CommitDetails(gitPath, id)).numberOfChanges();
+    }
+    
+  //renvoie une map dont les clefs sont les noms des fichiers et les valeurs un tableau d'entier comptant le nombre de lignes retirées (indice 0) et ajoutées (indice 1) de tous les commits
+    public static HashMap numberOfChangesPerFile(Path gitPath) {
+    	 List<Commit> commits = parseLogFromCommand(gitPath);
+    	 HashMap<String, int[]> numberOfChanges = new HashMap<String, int[]>();
+    	 for(Commit c : commits) {
+    		 HashMap<String, int[]> changes = c.numberOfChanges(gitPath);
+    		 for(String key : changes.keySet()) {
+    			 if(numberOfChanges.containsKey(key)){
+    				 numberOfChanges.get(key)[0] = numberOfChanges.get(key)[0] + changes.get(key)[0];
+    				 numberOfChanges.get(key)[1] = numberOfChanges.get(key)[1] + changes.get(key)[1];
+    			 }
+    			 else {
+    				 int [] t = {changes.get(key)[0], changes.get(key)[1]};
+    				 numberOfChanges.put(key, t);
+    			 }
+    		 }
+    	 }
+    	 return numberOfChanges;
     }
 
 
