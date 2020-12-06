@@ -69,11 +69,29 @@ public class CommitDetails {
     private static void parseError() {
         throw new RuntimeException("Wrong commit format.");
     }
-
+    
+    //renvoie une map dont les clefs sont les noms des fichiers et les valeurs un tableau d'entier comptant le nombre de lignes retirées (indice 0) et ajoutées (indice 1)
+    public HashMap numberOfChanges() {
+    	HashMap numberOfChanges = new HashMap<String, int[]>();
+    	for(String key : changes.keySet()){
+    		numberOfChanges.put(key, new int[2]);
+    		for(String value : changes.get(key) ) {
+    			if(value.startsWith("-")) {
+    				int t[] = (int[]) numberOfChanges.get(key);
+    				t[0]++;
+    			}
+    			else {
+    				int t[] = (int[]) numberOfChanges.get(key);
+    				t[1]++;
+    			}
+    		}
+    	}
+    	return numberOfChanges;
+    }
+    
     public void Afficher(){
-        System.out.println(changes.size());
          for(String m : changes.keySet()){
-             System.out.println(m);
+        	 System.out.println(m);
              LinkedList<String> l = changes.get(m);
              for(String s : l){
                  System.out.println("  " + s);

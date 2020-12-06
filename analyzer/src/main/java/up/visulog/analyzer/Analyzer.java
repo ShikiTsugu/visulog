@@ -43,6 +43,7 @@ public class Analyzer {
             case "sumOfCommitsPerDay" : return Optional.of(new SumOfCommitsPerDayPlugin(config));
             case "countCommitsPerHour" : return Optional.of(new CountCommitsPerHourPlugin(config));
             case "countLinesPerAuthor" : return Optional.of(new CountLinesPerAuthorPlugin(config));
+            case "countChangesPerFile" : return Optional.of(new CountChangesPerFilePlugin(config));
             default : return Optional.empty();
         }
     }
