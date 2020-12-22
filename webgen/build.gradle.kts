@@ -5,10 +5,11 @@ plugins {
 
 repositories {
     mavenCentral()
+
 }
 
 dependencies {
-    implementation(project(":config"))
+    implementation("org.testng:testng:7.1.0")
     testImplementation("junit:junit:4.+")
 }
 

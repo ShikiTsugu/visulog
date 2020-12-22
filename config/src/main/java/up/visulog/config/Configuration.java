@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Configuration {
+public class Configuration{
 
     private final Path gitPath;
     private final Map<String, PluginConfig> plugins;
-
     public Configuration(Path gitPath, Map<String, PluginConfig> plugins) {
         this.gitPath = gitPath;
         this.plugins = Map.copyOf(plugins);
     }
+
 
     public Path getGitPath() {
         return gitPath;
