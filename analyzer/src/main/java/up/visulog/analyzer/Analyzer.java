@@ -44,6 +44,7 @@ public class Analyzer {
             case "countCommitsPerHour" : return Optional.of(new CountCommitsPerHourPlugin(config));
             case "countLinesPerAuthor" : return Optional.of(new CountLinesPerAuthorPlugin(config));
             case "countChangesPerFile" : return Optional.of(new CountChangesPerFilePlugin(config));
+            case "countChangesPerWeek" : return Optional.of(new CountChangesPerWeekPlugin(config));
             default : return Optional.empty();
         }
     }

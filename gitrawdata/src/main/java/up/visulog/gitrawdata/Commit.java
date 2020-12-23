@@ -260,7 +260,24 @@ public class Commit {
     	 }
     	 return numberOfChanges;
     }
-
+    
+    public static HashMap numberOfChangesPerWeek(Path gitPath) {
+    	List<Commit> commits = parseLogFromCommand(gitPath);
+    	HashMap<LocalDate, int[]> changesPerWeek = new HashMap<LocalDate, int[]>();
+    	for(Commit c : commits) {
+    		HashMap<String, int[]> changes = c.numberOfChanges(gitPath);
+    		for(String key : changes.keySet()) {
+	    		if(changesPerWeek.get(firstDayOfTheWeek(c.date.toLocalDate()))==null) {
+	    			int [] t = {changes.get(key)[0], changes.get(key)[1]};
+	        		changesPerWeek.put(firstDayOfTheWeek(c.date.toLocalDate()), t );
+	    		}else {
+	    			changesPerWeek.get(firstDayOfTheWeek(c.date.toLocalDate()))[0] = changesPerWeek.get(firstDayOfTheWeek(c.date.toLocalDate()))[0] + changes.get(key)[0];
+   				 	changesPerWeek.get(firstDayOfTheWeek(c.date.toLocalDate()))[1] = changesPerWeek.get(firstDayOfTheWeek(c.date.toLocalDate()))[1] + changes.get(key)[1];
+	    		}
+    		}
+    	}
+    	return changesPerWeek;
+    }
 
     @Override
     public String toString() {
