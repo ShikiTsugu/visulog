@@ -1,8 +1,10 @@
 package up.visulog.analyzer;
 
+import freemarker.template.Template;
 import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,12 +51,12 @@ public class CountCommitsPerAuthorPlugin implements AnalyzerPlugin {
 
         @Override
         public String getResultAsHtmlDiv() {
-            StringBuilder html = new StringBuilder("<div>Commits per author: <ul>");
-            for (var item : commitsPerAuthor.entrySet()) {
-                html.append("<li>").append(item.getKey()).append(": ").append(item.getValue()).append("</li>");
-            }
-            html.append("</ul></div>");
-            return html.toString();
+            Freemarker tmp = new Freemarker();
+
+            var root = new HashMap<>();
+            root.put("result", commitsPerAuthor);
+
+            return tmp.useOfTemplates(root, "count_commits_by_author.ftlh");
         }
     }
 }
