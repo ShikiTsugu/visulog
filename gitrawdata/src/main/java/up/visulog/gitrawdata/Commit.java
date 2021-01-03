@@ -278,24 +278,6 @@ public class Commit {
     	}
     	return changesPerWeek;
     }
-    
-    public static HashMap numberOfChangesPerAuthor(Path gitPath) {
-    	List<Commit> commits = parseLogFromCommand(gitPath);
-    	HashMap<String, int[]> changesPerAuthor = new HashMap<String, int[]>();
-    	for(Commit c : commits) {
-    		HashMap<String, int[]> changes = c.numberOfChanges(gitPath);
-    		for(String key : changes.keySet()) {
-	    		if(changesPerAuthor.get(c.author)==null) {
-	    			int [] t = {changes.get(key)[0], changes.get(key)[1]};
-	        		changesPerAuthor.put(c.author, t);
-	    		}else {
-	    			changesPerAuthor.get(c.author)[0] = changesPerAuthor.get(c.author)[0] + changes.get(key)[0];
-   				 	changesPerAuthor.get(c.author)[1] = changesPerAuthor.get(c.author)[1] + changes.get(key)[1];
-	    		}
-    		}
-    	}
-    	return changesPerAuthor;
-    }
 
     @Override
     public String toString() {
