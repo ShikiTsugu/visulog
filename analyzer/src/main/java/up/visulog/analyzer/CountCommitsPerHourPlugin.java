@@ -36,7 +36,7 @@ public class CountCommitsPerHourPlugin implements AnalyzerPlugin {
     static class Result implements AnalyzerPlugin.Result {
         private int [] commitsPerHour;
 
-       int [] getCommitsPerday() {
+       int [] getCommitsPerHour() {
             return commitsPerHour;
         }
 

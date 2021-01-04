@@ -45,12 +45,12 @@ public class CountChangesPerFilePlugin implements AnalyzerPlugin {
 
         @Override
         public String getResultAsHtmlDiv() {
-            StringBuilder html = new StringBuilder("<div>Changes per file: <ul>");
-            for (var item : changesPerFile.entrySet()) {
-                html.append("<li>").append(item.getKey()).append(": retirées ").append(item.getValue()[0]).append(" ajoutées ").append(item.getValue()[1]).append("</li>");
-            }
-            html.append("</ul></div>");
-            return html.toString();
+            Freemarker tmp = new Freemarker();
+
+            var root = new HashMap<>();
+            root.put("result", changesPerFile);
+
+            return tmp.useOfTemplates(root, "count_changes_by_author.ftlh");
         }
     }
 }
