@@ -1,7 +1,7 @@
 <div>
 <ul>
 <#list result as hour, count>
-<li>${hour}:${count}</li>
+<li>${hour}h : ${count}</li>
 </#list>
 </ul>
 </div>

@@ -46,12 +46,12 @@ import java.util.Map;
 
             @Override
             public String getResultAsHtmlDiv() {
-                StringBuilder html = new StringBuilder("<div>The sum of commits per day: <ul>");
-                for (var item : commitsPerDaySum.entrySet()) {
-                    html.append("<li>").append(item.getKey()).append(": ").append(item.getValue()).append("</li>");
-                }
-                html.append("</ul></div>");
-                return html.toString();
+                Freemarker tmp = new Freemarker();
+
+                var root = new HashMap<>();
+                root.put("result", commitsPerDaySum);
+
+                return tmp.useOfTemplates(root, "count_commits_by_day.ftlh");
             }
         }
     }

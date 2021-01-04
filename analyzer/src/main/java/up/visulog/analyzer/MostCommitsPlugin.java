@@ -58,12 +58,12 @@ public class MostCommitsPlugin implements AnalyzerPlugin {
 
         @Override
         public String getResultAsHtmlDiv() {
-            StringBuilder html = new StringBuilder("<div>Most Commits author: <ul>");
-            for (var item : Mostcommits.entrySet()) {
-                html.append("<li>").append(item.getKey()).append(": ").append(item.getValue()).append("</li>");
-            }
-            html.append("</ul></div>");
-            return html.toString();
+            Freemarker tmp = new Freemarker();
+
+            var root = new HashMap<>();
+            root.put("result", Mostcommits);
+
+            return tmp.useOfTemplates(root, "most_commits_by_author.ftlh");
         }
     }
 }
