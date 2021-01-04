@@ -4,9 +4,7 @@ import up.visulog.config.Configuration;
 import up.visulog.gitrawdata.Commit;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CountCommitsPerHourPlugin implements AnalyzerPlugin {
     private final Configuration configuration;
@@ -47,12 +45,17 @@ public class CountCommitsPerHourPlugin implements AnalyzerPlugin {
 
         @Override
         public String getResultAsHtmlDiv() {
-            StringBuilder html = new StringBuilder("<div>Commits per Hour: <ul>");
+            Map<String, Integer> perHour= new LinkedHashMap<>();
+
             for(int i=0; i<24; i=i+2) {
-                html.append("<li>").append(i + "-" + ((i+2)%24)+"h").append(": ").append(commitsPerHour[i]+commitsPerHour[i+1]).append("</li>");
+                perHour.put(i + "-" + (i+2)%24,commitsPerHour[i]+commitsPerHour[i+1]);
             }
-            html.append("</ul></div>");
-            return html.toString();
+            Freemarker tmp = new Freemarker();
+
+            var root = new HashMap<>();
+            root.put("result", perHour);
+
+            return tmp.useOfTemplates(root, "count_commits_by_hour.ftlh");
         }
     }
 }
